@@ -25,11 +25,6 @@ outputs:
 runs:
   using: composite
   steps:
-  
-    # Install protoc compiler
-    - name: Install protoc
-      run: sudo apt-get install -y protobuf-compiler
-
     - name: Move config to temporary isolated workspace
       id: workspace
       shell: bash

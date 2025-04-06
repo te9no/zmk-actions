@@ -79,6 +79,11 @@ jobs:
         with:
           toolchain: ${{ inputs.toolchain }}
 
+  
+      # Install protoc compiler
+      - name: Install protoc
+        run: sudo apt-get install -y protobuf-compiler
+
       - name: Pull in ZMK and Zephyr modules
         uses: te9no/zmk-actions/setup-zmk@v4
         id: setup-zmk
