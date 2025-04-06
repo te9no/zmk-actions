@@ -75,8 +75,9 @@ jobs:
 
       - name: Uninstall setuptools
         run: sudo pip uninstall -y setuptools
+
       - name: Install protoc
-        run: sudo pip install setuptools==39.1.0
+        run: sudo pip install setuptools==69.5.1
 
       - name: Set up West and Zephyr SDK
         if: ${{ ! inputs.run-in-container }}
