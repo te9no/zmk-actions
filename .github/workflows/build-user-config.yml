@@ -76,8 +76,11 @@ jobs:
       - name: Uninstall setuptools
         run: sudo pip uninstall -y setuptools
 
-      - name: Install setuptools
+        - name: Install setuptools
         run: sudo pip install --upgrade setuptools
+
+      - name: Install python-pkg-resources
+        run: sudo apt-get install --reinstall python-pkg-resources
 
       - name: Set up West and Zephyr SDK
         if: ${{ ! inputs.run-in-container }}
