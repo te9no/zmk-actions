@@ -79,9 +79,6 @@ jobs:
       - name: Install setuptools
         run: sudo pip install --upgrade setuptools
 
-      - name: Install python-pkg-resources
-        run: sudo pip install --upgrade distribute 
-
       - name: Set up West and Zephyr SDK
         if: ${{ ! inputs.run-in-container }}
         uses: te9no/zmk-actions/setup-sdk@v4
