@@ -26,6 +26,7 @@
               west
               pyelftools
               pyyaml
+              setuptools
             ]))
           ];
         in
