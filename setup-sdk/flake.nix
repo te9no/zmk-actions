@@ -27,7 +27,6 @@
               pyelftools
               pyyaml
               setuptools
-              pkg_resources
             ]))
           ];
         in
