@@ -17,11 +17,13 @@
     {
       devShells = forAllSystems ({ pkgs, zephyr_ }:
         let
-          shared_pkgs = [
+          cmake = [
             pkgs.cmake
             pkgs.dtc
             pkgs.ninja
+          ];
 
+          pythonSmall = [
             (pkgs.python3.withPackages (ps: with ps; [
               west
               pyelftools
@@ -29,10 +31,16 @@
               setuptools
             ]))
           ];
+
+          pythonFull = [
+            (zephyr_.pythonEnv.override {
+              extraPackages = ps: [ ps.setuptools ];
+            })
+          ];
         in
         rec {
           gnuarmemb = pkgs.mkShellNoCC {
-            packages = shared_pkgs ++ [ pkgs.gcc-arm-embedded ];
+            packages = cmake ++ pythonSmall ++ [ pkgs.gcc-arm-embedded ];
             env = {
               ZEPHYR_TOOLCHAIN_VARIANT = "gnuarmemb";
               GNUARMEMB_TOOLCHAIN_PATH = pkgs.gcc-arm-embedded;
@@ -40,9 +48,17 @@
           };
 
           zephyr = pkgs.mkShellNoCC {
-            packages = shared_pkgs ++ [ (zephyr_.sdk-0_16.override { targets = [ "arm-zephyr-eabi" ]; }) ];
+            packages = cmake ++ pythonSmall ++ [ (zephyr_.sdk-0_16.override { targets = [ "arm-zephyr-eabi" ]; }) ];
             env = {
               ZEPHYR_TOOLCHAIN_VARIANT = "zephyr";
+            };
+          };
+
+          zephyr-full = pkgs.mkShellNoCC {
+            packages = cmake ++ pythonFull ++ [ (zephyr_.sdk-0_16.override { targets = [ "arm-zephyr-eabi" ]; }) ];
+            env = {
+              ZEPHYR_TOOLCHAIN_VARIANT = "zephyr";
+              PYTHONPATH = "${zephyr_.pythonEnv}/${zephyr_.pythonEnv.sitePackages}";
             };
           };
 
